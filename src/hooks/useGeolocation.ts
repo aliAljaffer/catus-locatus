@@ -1,16 +1,17 @@
 import { LatLngExpression } from "leaflet";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const defaultPosition: LatLngExpression = {
-  lat: 50,
-  lng: 25,
-};
+// const defaultPosition: LatLngExpression = {
+//   lat: 50,
+//   lng: 25,
+// };
 
 export function useGeolocation() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [position, setPosition] = useState<LatLngExpression>(null);
+  const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [error, setError] = useState<string>("");
-
+  const navigate = useNavigate();
   function getPosition() {
     if (!navigator.geolocation)
       return setError("Your browser does not support geolocation");
@@ -22,6 +23,7 @@ export function useGeolocation() {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
+        navigate(`?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
         setIsLoading(false);
       },
       (error) => {
