@@ -4,7 +4,7 @@ import TopNav from "./components/ui/TopNav";
 import Card from "./components/ui/Card";
 
 const queryClient = new QueryClient();
-
+// TODO: Framer Motion
 function App() {
   return (
     <QueryClientProvider client={queryClient}>

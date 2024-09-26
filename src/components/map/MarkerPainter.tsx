@@ -9,7 +9,7 @@ export default function MarkerPainter({ handleMapClick }: MarkerPainterProps) {
   const [inViewPets, setInViewPets] = useState<TPet[]>([]);
 
   const map = useMapEvents({
-    moveend: listenAndUpdate,
+    moveend: loadInView,
   });
 
   const { data } = useQuery<TPet[]>({
@@ -22,7 +22,7 @@ export default function MarkerPainter({ handleMapClick }: MarkerPainterProps) {
     staleTime: 50 * 1,
   });
 
-  function listenAndUpdate() {
+  function loadInView() {
     let inView: TPet[] = [];
     if (data && map) {
       inView = data.filter((pet) =>

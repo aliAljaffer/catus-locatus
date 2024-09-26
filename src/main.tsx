@@ -9,6 +9,7 @@ import "@fontsource/roboto/700.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "@radix-ui/themes/styles.css";
 import { Spinner, Theme } from "@radix-ui/themes";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       <Suspense fallback={<Spinner />}>
         <Theme>
           <App />
+          <Toaster position="top-center" reverseOrder={false} />
         </Theme>
       </Suspense>
     ),

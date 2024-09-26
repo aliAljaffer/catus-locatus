@@ -20,7 +20,6 @@ function useFetchInViewPets(map: RefObject<Map>) {
       mapBounds.contains([pet.position.latitude, pet.position.longitude]),
     );
   }
-  console.log("pets in view", inView.length);
   return { inView, error, isLoading, isPending };
 }
 

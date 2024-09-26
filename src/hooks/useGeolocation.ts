@@ -12,7 +12,7 @@ export function useGeolocation() {
   const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-  function getPosition() {
+  function getPosition(isInForm: boolean = false) {
     if (!navigator.geolocation)
       return setError("Your browser does not support geolocation");
 
@@ -23,7 +23,8 @@ export function useGeolocation() {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
-        navigate(`?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
+        if (!isInForm)
+          navigate(`?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
         setIsLoading(false);
       },
       (error) => {
@@ -32,6 +33,5 @@ export function useGeolocation() {
       },
     );
   }
-
   return { isLoading, position, error, getPosition };
 }

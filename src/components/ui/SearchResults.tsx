@@ -20,6 +20,7 @@ export default function SearchResults({ searchTerm }: SearchResultsProps) {
       {filteredResults.length > 0 ? (
         filteredResults.slice(0, 8).map((pet) => (
           <div
+            key={pet.caseId}
             onClick={() => {
               navigate(
                 `?lat=${pet.position.latitude}&lng=${pet.position.longitude}`,

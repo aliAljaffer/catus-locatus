@@ -4,6 +4,8 @@ import { Input } from "./input";
 import SearchResults from "./SearchResults";
 import { useState } from "react";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import ReportDialog from "../pets/ReportDialog";
+import About from "@/components/ui/About";
 
 export default function TopNav() {
   const {
@@ -17,10 +19,11 @@ export default function TopNav() {
   const ref = useOutsideClick<HTMLDivElement>(() => {
     setHideResults(true);
   });
+
   return (
     <div
       ref={ref}
-      className="absolute right-[50%] top-0 z-[99999] mt-10 flex w-72 translate-x-[50%] flex-col items-center justify-center gap-1"
+      className="absolute right-[50%] top-0 z-[999] mt-10 flex w-72 translate-x-[50%] flex-col items-center justify-center gap-1 sm:w-96"
     >
       <div className={`"relative h-10 w-full`}>
         <Input
@@ -45,17 +48,23 @@ export default function TopNav() {
             Search
           </Button> */}
       </div>
-      {
-        /* {!geolocationPosition  */ false && (
+      <div className="mt-2 flex flex-col items-center justify-center gap-2">
+        {!geolocationPosition && hideResults && (
           <Button
-            onClick={getPosition}
+            onClick={() => getPosition()}
             variant={"default"}
-            className="mt-4 w-fit"
+            className="w-fit sm:w-48"
           >
             {isLoadingPosition ? "Loading..." : "Use current position"}
           </Button>
-        )
-      }
+        )}
+        {hideResults && (
+          <div className="flex items-center justify-center gap-1 sm:w-64 sm:gap-2">
+            <ReportDialog />
+            <About />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

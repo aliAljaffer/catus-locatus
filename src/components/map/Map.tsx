@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import { useUrlPosition } from "@/hooks/useUrlPosition";
@@ -13,12 +13,11 @@ import {
 import { TPet } from "../pets/Pet";
 import { useNavigate } from "react-router-dom";
 import MarkerPainter from "./MarkerPainter";
+import { DEFAULT_POINT } from "@/utils/helpers";
 
-// const riyadh: LatLngExpression = [24.732715, 46.676868];
 export default function Map() {
-  const [mapPosition, setMapPosition] = useState<LatLngExpression>([
-    24.732715, 46.676868,
-  ]);
+  const [mapPosition, setMapPosition] =
+    useState<LatLngExpression>(DEFAULT_POINT);
   const selectedId = useSelectedId();
   const isCardShown = useIsCardShown();
   const showCard = useShowCard();
@@ -34,11 +33,14 @@ export default function Map() {
 
   useEffect(
     function () {
-      if (mapLat && mapLng) setMapPosition({ lat: mapLat, lng: mapLng });
+      if (mapLat && mapLng) {
+        setMapPosition({ lat: mapLat, lng: mapLng });
+      }
     },
     [mapLat, mapLng],
   );
   function handleMapClick(pet: TPet) {
+    // This is happening
     setMapPosition([pet.position.latitude, pet.position.longitude]);
     navigate(`?lat=${pet.position.latitude}&lng=${pet.position.longitude}`);
     if (pet.caseId !== selectedId) {
@@ -48,7 +50,6 @@ export default function Map() {
       }
     }
   }
-
   return (
     <div className="relative flex h-full w-full">
       <MapContainer
@@ -64,7 +65,19 @@ export default function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <MarkerPainter handleMapClick={handleMapClick} />
+        <SetViewOnClick coords={mapPosition} />
       </MapContainer>
     </div>
   );
+}
+type X = {
+  coords: LatLngExpression;
+};
+function SetViewOnClick({ coords }: X) {
+  const map = useMap();
+  useEffect(() => {
+    if (map.getCenter() === coords) return;
+    map.setView(coords, map.getZoom());
+  }, [coords, map]);
+  return null;
 }

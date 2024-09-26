@@ -13,6 +13,29 @@ export function isDifferentCoord(
   } else if (!Array.isArray(posA) && !Array.isArray(posB)) {
     if (posA.lat === posB.lat && posA.lng === posB.lng) return false;
   }
-  console.log("DIFFERENT");
   return true;
+}
+
+export const DEFAULT_POINT: LatLngExpression = [24.732715, 46.676868];
+
+export function formatDate(date: Date | string): string {
+  let processedDate;
+  if (typeof date === "string") {
+    processedDate = new Date(date);
+  } else processedDate = date;
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(processedDate);
+}
+
+export function obfuscate(str: string): string {
+  const halfLen = Math.ceil(str.length / 2);
+  const obfuscated = str.slice(0, halfLen);
+  return obfuscated + c("*", halfLen);
+}
+
+export function c(char: string, num: number): string {
+  return Array.from({ length: num }, () => char).join("");
 }
