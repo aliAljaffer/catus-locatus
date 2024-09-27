@@ -72,12 +72,13 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
       url = await uploadImage(data.imageUrl);
     }
     let lat, lng;
-    if (Array.isArray(data.position)) {
-      lat = data.position[0];
-      lng = data.position[1];
-    } else if (data.position) {
-      lat = data.position.lat;
-      lng = data.position.lng;
+    console.log(data.position);
+    if (Array.isArray(userPosition)) {
+      lat = userPosition[0];
+      lng = userPosition[1];
+    } else if (userPosition) {
+      lat = userPosition.lat;
+      lng = userPosition.lng;
     }
     const petRow = {
       name: data.petName,
@@ -111,6 +112,7 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
       isCaseReviewed: false,
       language: data.language,
     };
+    console.log(reportRow);
     const { error } = await supabase
       .from(isReportingPetAsFound ? "reports" : "pets")
       .insert(isReportingPetAsFound ? reportRow : petRow);
@@ -154,7 +156,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             )}
           </div>
         )}
-
         {/* Pet Type (Select) */}
         {!isReportingPetAsFound && (
           <div className="relative">
@@ -177,7 +178,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             )}
           </div>
         )}
-
         {/* Contact */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -194,7 +194,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             </span>
           )}
         </div>
-
         {/* Is Lost (Checkbox) */}
         {!isReportingPetAsFound && (
           <div className="relative flex items-center">
@@ -210,7 +209,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             {isReportingPetAsFound && autoFilled}
           </div>
         )}
-
         {/* Position */}
         {!isReportingPetAsFound && (
           <div className="relative">
@@ -242,7 +240,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             )}
           </div>
         )}
-
         {/* Image URL */}
         {!isReportingPetAsFound && (
           <div className="relative">
@@ -264,7 +261,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             )}
           </div>
         )}
-
         {/* Reporter Name */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -281,7 +277,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             </span>
           )}
         </div>
-
         {/* Reward */}
         {!isReportingPetAsFound && (
           <div className="relative">
@@ -308,7 +303,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             )}
           </div>
         )}
-
         {/* Language (Select) */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -337,7 +331,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             </span>
           )}
         </div>
-
         {/* Report Date */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -355,7 +348,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             </span>
           )}
         </div>
-
         {/* Has Microchip */}
         {!isReportingPetAsFound && (
           <div className="relative">
@@ -377,13 +369,25 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             )}
           </div>
         )}
+        <div className="flex flex-row-reverse gap-1">
+          {!userPosition && (
+            <button
+              type="button"
+              onClick={() => getPosition(true)}
+              className="mt-4 w-full rounded-md border border-red-700 bg-neutral-200 py-2 font-semibold text-zinc-700 hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-300"
+            >
+              Get my position
+            </button>
+          )}
 
-        <button
-          type="submit"
-          className="mt-4 w-full rounded-md bg-neutral-600 py-2 font-semibold text-white hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-300"
-        >
-          Submit
-        </button>
+          <button
+            disabled={!userPosition}
+            type="submit"
+            className="mt-4 w-full rounded-md bg-neutral-600 py-2 font-semibold text-white hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-300"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
