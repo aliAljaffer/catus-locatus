@@ -58,14 +58,14 @@ export default function Map() {
     }
   }
   // try this
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     if (mapRef.current) {
-  //       mapRef.current.invalidateSize();
-  //     }
-  //   }, 0);
-  //   return () => clearTimeout(timeoutId);
-  // });
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize();
+      }
+    }, 0);
+    return () => clearTimeout(timeoutId);
+  });
   return (
     // Chnaged here
     <div className="relative flex h-screen w-screen">
