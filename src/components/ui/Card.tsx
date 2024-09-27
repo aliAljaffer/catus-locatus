@@ -61,7 +61,7 @@ export default function Card() {
     return (
       <div
         ref={ref}
-        className={`${showMiniCard ? "right-[50%] translate-x-[50%]" : "right-[100%] -translate-x-[100%]"} absolute bottom-0 z-[999] flex h-96 w-[95dvw] flex-col items-start justify-start gap-4 rounded-lg border border-input bg-zinc-100 bg-opacity-90 px-3 py-4 text-sm shadow-md transition-all duration-300 animate-in placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 sm:max-w-[40rem] ${!expanded ? "translate-y-[70%]" : ""}`}
+        className={`overflow-y-hidden ${showMiniCard ? "right-[50%] translate-x-[50%]" : "right-[100%] -translate-x-[100%]"} absolute bottom-0 z-[999] flex h-96 w-[95dvw] flex-col items-start justify-start gap-4 rounded-lg border border-input bg-zinc-100 bg-opacity-90 px-3 py-4 text-sm shadow-md transition-all duration-300 animate-in placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 sm:max-w-[40rem] ${!expanded ? "translate-y-[70%]" : ""}`}
       ></div>
     );
 
@@ -78,7 +78,8 @@ export default function Card() {
     isLost,
     // language,
     message,
-    microchip,
+    microchip__microchipNumber,
+    microchip__hasMicrochip,
     name,
     petType,
     reportDate,
@@ -129,11 +130,7 @@ export default function Card() {
           featureName="Pet type"
           content={petType}
         />
-        <Feature
-          Icon={<InfoCircledIcon />}
-          featureName="Tags"
-          content={tags.join(", ")}
-        />
+        <Feature Icon={<InfoCircledIcon />} featureName="Tags" content={tags} />
         <Feature
           Icon={<TextAlignJustifyIcon />}
           featureName="Breed"
@@ -143,8 +140,8 @@ export default function Card() {
           Icon={<CubeIcon />}
           featureName="Microchip?"
           content={
-            microchip.hasMicrochip && microchip.microchipNumber
-              ? microchip.microchipNumber
+            microchip__hasMicrochip && microchip__microchipNumber
+              ? microchip__microchipNumber
               : "N/A"
           }
         />

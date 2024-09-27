@@ -13,7 +13,7 @@ import {
 import { TPet } from "../pets/Pet";
 import { useNavigate } from "react-router-dom";
 import MarkerPainter from "./MarkerPainter";
-import { DEFAULT_POINT } from "@/utils/helpers";
+import { APP_ROUTE, DEFAULT_POINT } from "@/utils/helpers";
 
 export default function Map() {
   const [mapPosition, setMapPosition] =
@@ -41,8 +41,10 @@ export default function Map() {
   );
   function handleMapClick(pet: TPet) {
     // This is happening
-    setMapPosition([pet.position.latitude, pet.position.longitude]);
-    navigate(`?lat=${pet.position.latitude}&lng=${pet.position.longitude}`);
+    setMapPosition([pet.position__latitude, pet.position__longitude]);
+    navigate(
+      `${APP_ROUTE}?lat=${pet.position__latitude}&lng=${pet.position__longitude}`,
+    );
 
     if (pet.caseId !== selectedId) {
       changeSelected(pet.caseId);

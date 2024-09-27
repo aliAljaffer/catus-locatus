@@ -1,26 +1,18 @@
-import { TPet } from "@/data/pets";
-import { useQuery } from "@tanstack/react-query";
+import { TPet } from "@/components/pets/Pet";
 import { Map } from "leaflet";
 import { RefObject } from "react";
+import useFetchAllPets from "./useFetchAllPets";
 
 function useFetchInViewPets(map: RefObject<Map>) {
-  const { data, error, isLoading, isPending } = useQuery<TPet[]>({
-    queryKey: ["pets"],
-    queryFn: async () => {
-      return await fetch("http://localhost:5000/pets").then((res) =>
-        res.json(),
-      );
-    },
-    staleTime: 15 * 1,
-  });
+  const { data, error, isLoading } = useFetchAllPets();
   const mapBounds = map?.current?.getBounds();
   let inView: TPet[] = [];
   if (data && mapBounds) {
     inView = data.filter((pet) =>
-      mapBounds.contains([pet.position.latitude, pet.position.longitude]),
+      mapBounds.contains([pet.position__latitude, pet.position__longitude]),
     );
   }
-  return { inView, error, isLoading, isPending };
+  return { inView, error, isLoading };
 }
 
 export default useFetchInViewPets;

@@ -1,17 +1,17 @@
-import { TPet } from "@/data/pets";
+import { TPet } from "@/components/pets/Pet";
 import { useQuery } from "@tanstack/react-query";
+import supabase from "@/utils/supabase";
+import { STALE_TIME } from "@/utils/helpers";
 function useFetchAllPets() {
-  const { data, error, isLoading, isPending } = useQuery<TPet[]>({
+  const { data, error, isLoading } = useQuery<TPet[]>({
     queryKey: ["pets"],
     queryFn: async () => {
-      return await fetch("http://localhost:5000/pets").then((res) =>
-        res.json(),
-      );
+      const { data, error } = await supabase.from("pets").select();
+      if (error) throw new Error(error.message);
+      return data as TPet[];
     },
-    staleTime: 15 * 1,
+    staleTime: STALE_TIME,
   });
-
-  return { data, error, isLoading, isPending };
+  return { data, error, isLoading };
 }
-
 export default useFetchAllPets;

@@ -1,3 +1,4 @@
+import { APP_ROUTE } from "@/utils/helpers";
 import { LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +25,9 @@ export function useGeolocation() {
           lng: pos.coords.longitude,
         });
         if (!isInForm) {
-          navigate(`?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
+          navigate(
+            `${APP_ROUTE}?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`,
+          );
         }
         setIsLoading(false);
       },

@@ -8,6 +8,8 @@ import { useGeolocation } from "@/hooks/useGeolocation";
 import { Button } from "../ui/button";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { uploadImage } from "@/utils/helpers";
+import supabase from "@/utils/supabase";
 
 type MakeReportProps = {
   petReported?: TPet;
@@ -33,7 +35,7 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
       contact: "",
       description: "",
       hasMicrochip: isReportingPetAsFound
-        ? petReported.microchip.microchipNumber || undefined
+        ? petReported.microchip__microchipNumber || undefined
         : false,
       isLost: isReportingPetAsFound ? petReported.isLost : false,
       language: "ar",
@@ -64,11 +66,63 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
       }
     }
   }, [userPosition, setValue]);
-  // TODO
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onSubmit = (data: FormData) => {
-    toast.success("Report submitted! Admins will review the report.");
-    action?.();
+  const onSubmit = async (data: FormData) => {
+    let url: string | null = "None";
+    if (data.imageUrl) {
+      url = await uploadImage(data.imageUrl);
+    }
+    let lat, lng;
+    if (Array.isArray(data.position)) {
+      lat = data.position[0];
+      lng = data.position[1];
+    } else if (data.position) {
+      lat = data.position.lat;
+      lng = data.position.lng;
+    }
+    const petRow = {
+      name: data.petName,
+      petType: data.petType,
+      contact: data.contact,
+      isLost: !isReportingPetAsFound,
+      caseStatus: "open",
+      position__latitude: lat,
+      position__longitude: lng,
+      imageUrl: url,
+      description: data.description,
+      message: data.message,
+      reporterName: data.reporterName,
+      reward: data.reward,
+      breed: data.breed,
+      language: data.language,
+      reportDate: data.reportDate,
+      microchip__hasMicrochip: data.hasMicrochip,
+      microchip__microchipNumber: data.hasMicrochip || "",
+      tags: data?.tags?.join(", ") || "",
+    };
+    const reportRow = {
+      name: data.reporterName,
+      petType: data.petType,
+      contact: data.contact,
+      isPetFoundReport: isReportingPetAsFound,
+      reportLatitude: lat,
+      reportLongitude: lng,
+      imageUrl: url,
+      message: data.message,
+      isCaseReviewed: false,
+      language: data.language,
+    };
+    const { error } = await supabase
+      .from(isReportingPetAsFound ? "reports" : "pets")
+      .insert(isReportingPetAsFound ? reportRow : petRow);
+    if (error) {
+      if (error.message.includes("row-level")) {
+        toast.error("Adding lost reports is WIP");
+        action?.();
+      } else toast.error(error.message);
+    } else {
+      toast.success("Information sent. We will review your report!");
+      action?.();
+    }
   };
 
   return (
@@ -290,7 +344,8 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
             Report Date
           </label>
           <input
-            type="date"
+            disabled={isReportingPetAsFound}
+            type={isReportingPetAsFound ? "text" : "date"}
             {...register("reportDate")}
             className="mt-1 w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-neutral-400"
           />

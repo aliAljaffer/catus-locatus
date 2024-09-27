@@ -1,4 +1,5 @@
 import { LatLngExpression } from "leaflet";
+import supabase from "./supabase";
 
 export function isDifferentCoord(
   posA: LatLngExpression,
@@ -38,4 +39,26 @@ export function obfuscate(str: string): string {
 
 export function c(char: string, num: number): string {
   return Array.from({ length: num }, () => char).join("");
+}
+
+export const STALE_TIME = 1000 * 60 * 60 * 12;
+export const APP_ROUTE = "/app";
+
+export async function uploadImage(file: File) {
+  const { data, error } = await supabase.storage
+    .from("images") // your bucket name
+    .upload(`public/${file.name}`, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  if (error) {
+    console.error("Error uploading image:", error);
+    return null;
+  }
+
+  // Get the public URL of the uploaded image
+  const publicUrl = supabase.storage.from("images").getPublicUrl(data.path)
+    .data.publicUrl;
+  return publicUrl;
 }

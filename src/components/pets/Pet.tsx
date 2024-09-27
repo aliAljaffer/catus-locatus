@@ -1,13 +1,3 @@
-type TPosition = {
-  latitude: number;
-  longitude: number;
-};
-
-type TMicrochip = {
-  hasMicrochip: boolean;
-  microchipNumber: string | null; // Assuming it can be null if hasMicrochip is false
-};
-
 export type TPet = {
   caseId: number;
   name: string;
@@ -15,14 +5,15 @@ export type TPet = {
   contact: string; // Phone or email
   isLost: boolean;
   caseStatus: "open" | "closed"; // Specify allowed case statuses
-  position: TPosition;
+  position__latitude: number;
+  position__longitude: number;
   imageUrl: string;
   description: string;
   message: string;
   reporterName: string;
   reward: number;
   breed: string;
-  tags: string[];
+  tags: string;
   language:
     | "ar"
     | "en"
@@ -37,7 +28,8 @@ export type TPet = {
     | "de"
     | "pt";
   reportDate: string; // ISO8601 date format
-  microchip: TMicrochip;
+  microchip__hasMicrochip: boolean;
+  microchip__microchipNumber: string | null;
 };
 
 type PetProps = {

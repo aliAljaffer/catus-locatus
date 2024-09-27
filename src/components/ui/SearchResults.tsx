@@ -3,15 +3,16 @@ import { Spinner } from "@radix-ui/themes";
 import { TPet } from "../pets/Pet";
 import { useNavigate } from "react-router-dom";
 import { useChangeSelected } from "@/store";
+import { APP_ROUTE } from "@/utils/helpers";
 
 type SearchResultsProps = {
   searchTerm: string;
 };
 export default function SearchResults({ searchTerm }: SearchResultsProps) {
-  const { data, isLoading, isPending } = useFetchAllPets();
+  const { data, isLoading } = useFetchAllPets();
   const changeSelected = useChangeSelected();
   const navigate = useNavigate();
-  if (isLoading || isPending) return <Spinner />;
+  if (isLoading) return <Spinner />;
   if (!data) return null;
   const filteredResults = searchPets(data, searchTerm);
   if (searchTerm.length < 1) return null;
@@ -23,7 +24,7 @@ export default function SearchResults({ searchTerm }: SearchResultsProps) {
             key={pet.caseId}
             onClick={() => {
               navigate(
-                `?lat=${pet.position.latitude}&lng=${pet.position.longitude}`,
+                `${APP_ROUTE}?lat=${pet.position__latitude}&lng=${pet.position__longitude}`,
               );
               changeSelected(pet.caseId);
             }}
@@ -54,7 +55,7 @@ function searchPets(petsList: TPet[], searchTerm: string): TPet[] {
       pet.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pet.petType.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pet.tags.join(" ").toLowerCase().includes(searchTerm.toLowerCase())
+      pet.tags.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 }

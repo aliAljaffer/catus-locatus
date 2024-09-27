@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { TPet } from "../pets/Pet";
 import { Marker, useMapEvents } from "react-leaflet";
-import { useQuery } from "@tanstack/react-query";
 import { icon } from "leaflet";
+import useFetchAllPets from "@/hooks/useFetchAllPets";
 type MarkerPainterProps = {
   handleMapClick: (p: TPet) => void;
 };
@@ -14,15 +14,7 @@ export default function MarkerPainter({ handleMapClick }: MarkerPainterProps) {
     moveend: loadInView,
   });
 
-  const { data } = useQuery<TPet[]>({
-    queryKey: ["pets"],
-    queryFn: async () => {
-      return await fetch("http://localhost:5000/pets").then((res) =>
-        res.json(),
-      );
-    },
-    staleTime: 50 * 1,
-  });
+  const { data } = useFetchAllPets();
 
   function loadInView() {
     let inView: TPet[] = [];
@@ -30,7 +22,7 @@ export default function MarkerPainter({ handleMapClick }: MarkerPainterProps) {
       inView = data.filter((pet) =>
         map
           .getBounds()
-          .contains([pet.position.latitude, pet.position.longitude]),
+          .contains([pet.position__latitude, pet.position__longitude]),
       );
     }
     console.log("pets in view", inView.length);
@@ -49,13 +41,13 @@ export default function MarkerPainter({ handleMapClick }: MarkerPainterProps) {
           <Marker
             icon={markerIcon}
             key={pet.caseId}
-            position={[pet.position.latitude, pet.position.longitude]}
+            position={[pet.position__latitude, pet.position__longitude]}
             title={pet.name}
             eventHandlers={{
               click: () => {
                 handleMapClick(pet as TPet);
                 map.setView(
-                  [pet.position.latitude, pet.position.longitude],
+                  [pet.position__latitude, pet.position__longitude],
                   14,
                 );
               },

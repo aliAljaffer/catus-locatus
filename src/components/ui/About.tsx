@@ -48,7 +48,7 @@ export default function ReportDialog({ classNameProp }: ReportDialogProps) {
           For any questions, contact{" "}
           <a
             className="text-center text-zinc-500 underline"
-            href="https://alialjaffer.github.io/"
+            href="https://github.com/alialjaffer"
             target="_blank"
             rel="noreferrer"
           >
