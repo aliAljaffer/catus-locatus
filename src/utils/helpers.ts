@@ -42,7 +42,7 @@ export function c(char: string, num: number): string {
 }
 
 export const STALE_TIME = 1000 * 60 * 60 * 12;
-export const APP_ROUTE = "/app";
+export const APP_ROUTE = "/";
 
 export async function uploadImage(file: File) {
   const { data, error } = await supabase.storage

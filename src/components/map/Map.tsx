@@ -1,9 +1,9 @@
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUrlPosition } from "@/hooks/useUrlPosition";
 import { useGeolocation } from "@/hooks/useGeolocation";
-import { LatLngExpression } from "leaflet";
+import { LatLngExpression, Map as LeafletMap } from "leaflet";
 import {
   useChangeSelected,
   useIsCardShown,
@@ -15,7 +15,11 @@ import { useNavigate } from "react-router-dom";
 import MarkerPainter from "./MarkerPainter";
 import { APP_ROUTE, DEFAULT_POINT } from "@/utils/helpers";
 
+// Test with w-screen/h-screen changes. if not working,
+// try with the useEffect
+
 export default function Map() {
+  const mapRef = useRef<LeafletMap | null>(null);
   const [mapPosition, setMapPosition] =
     useState<LatLngExpression>(DEFAULT_POINT);
   const selectedId = useSelectedId();
@@ -53,19 +57,31 @@ export default function Map() {
       }
     }
   }
+  // try this
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     if (mapRef.current) {
+  //       mapRef.current.invalidateSize();
+  //     }
+  //   }, 0);
+  //   return () => clearTimeout(timeoutId);
+  // });
   return (
-    <div className="relative flex h-full w-full">
+    // Chnaged here
+    <div className="relative flex h-screen w-screen">
       <MapContainer
+        ref={mapRef}
         center={mapPosition}
         zoom={14}
         scrollWheelZoom={true}
-        style={{ height: "100%", width: "100%" }}
+        className="h-full w-full"
         zoomControl={false}
         attributionControl={false}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          keepBuffer={4}
         />
         <MarkerPainter handleMapClick={handleMapClick} />
         <SetViewOnClick coords={mapPosition} />

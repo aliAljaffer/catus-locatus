@@ -16,16 +16,14 @@ import { Spinner, Theme } from "@radix-ui/themes";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { APP_ROUTE } from "./utils/helpers.ts";
-import Error from "./Error.tsx";
 
 // TODO: Add Auth page, optional if user just wants to browse.
 // Reminder to make a Twitter image.
-// TODO: Image upload in form.
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
-    path: `${APP_ROUTE}/*`,
+    path: `${APP_ROUTE}`,
     element: (
       <QueryClientProvider client={queryClient}>
         <Suspense fallback={<Spinner />}>
@@ -39,12 +37,8 @@ const router = createBrowserRouter([
     index: true,
   },
   {
-    path: "/",
-    element: <Navigate to={APP_ROUTE} />,
-  },
-  {
     path: "*",
-    element: <Error />,
+    element: <Navigate to={APP_ROUTE} />,
   },
 ]);
 
