@@ -68,7 +68,6 @@ export default function MakeReport({ petReported, action }: MakeReportProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmit = (data: FormData) => {
     toast.success("Report submitted! Admins will review the report.");
-
     action?.();
   };
 

@@ -40,6 +40,8 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        catus_main: "#3a6ea5",
+        catus_seconday: "#f0ebd8",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -68,6 +70,9 @@ export default {
       },
       minWidth: {
         screen: "100dvw",
+      },
+      fontFamily: {
+        sans: "Lato",
       },
     },
   },

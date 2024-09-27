@@ -24,10 +24,15 @@ export default function ReportDialog({ classNameProp }: ReportDialogProps) {
           <InfoCircledIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-auto max-h-[34rem] w-96 max-w-[26rem] overflow-y-auto">
+      <DialogContent className="h-auto max-h-[38rem] w-96 overflow-y-auto sm:w-[26rem] md:w-[28rem]">
         <DialogHeader>
           <DialogTitle></DialogTitle>
-          <DialogDescription>Catus Locatus logo</DialogDescription>
+          <DialogDescription>
+            <img
+              src="/catus_locatus_bg_4.png"
+              className="mx-auto my-auto aspect-auto h-fit w-fit"
+            />
+          </DialogDescription>
         </DialogHeader>
         <p className="w-[98%] p-1 text-center indent-4 text-sm tracking-normal">
           Found a lost pet that you suspect has a previous owned? Have you
@@ -42,7 +47,7 @@ export default function ReportDialog({ classNameProp }: ReportDialogProps) {
         <p className="w-[98%] p-1 text-center indent-4 text-sm tracking-normal">
           For any questions, contact{" "}
           <a
-            className="text-center text-zinc-500"
+            className="text-center text-zinc-500 underline"
             href="https://alialjaffer.github.io/"
             target="_blank"
             rel="noreferrer"

@@ -11,6 +11,11 @@ import "@radix-ui/themes/styles.css";
 import { Spinner, Theme } from "@radix-ui/themes";
 import { Toaster } from "react-hot-toast";
 
+// TODO: Add Auth page, optional if user just wants to browse.
+// TODO: Make URL/app/caseId pages.
+// Reminder to make a Twitter image.
+// TODO: Image upload in form.
+// TODO: Incorporate database
 const router = createBrowserRouter([
   {
     path: "/",

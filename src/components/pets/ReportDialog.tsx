@@ -14,11 +14,13 @@ import { useState } from "react";
 import { useSetIsDialogOpen } from "@/store";
 type ReportDialogProps = {
   petReported?: TPet;
+  buttonLabel?: string;
   classNameProp?: string;
 };
 export default function ReportDialog({
   petReported,
   classNameProp,
+  buttonLabel = "Report a Pet",
 }: ReportDialogProps) {
   const isGlobalDialogOpen = useSetIsDialogOpen();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -38,7 +40,7 @@ export default function ReportDialog({
           className={cn("text-xs uppercase", classNameProp)}
           size={"sm"}
         >
-          Report Pet
+          {buttonLabel}
         </Button>
       </DialogTrigger>
       <DialogContent className="h-auto max-h-[34rem] w-96 max-w-[26rem] overflow-y-auto">

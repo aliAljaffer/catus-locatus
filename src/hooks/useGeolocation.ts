@@ -23,8 +23,9 @@ export function useGeolocation() {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
-        if (!isInForm)
+        if (!isInForm) {
           navigate(`?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
+        }
         setIsLoading(false);
       },
       (error) => {

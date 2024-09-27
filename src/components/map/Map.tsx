@@ -43,6 +43,7 @@ export default function Map() {
     // This is happening
     setMapPosition([pet.position.latitude, pet.position.longitude]);
     navigate(`?lat=${pet.position.latitude}&lng=${pet.position.longitude}`);
+
     if (pet.caseId !== selectedId) {
       changeSelected(pet.caseId);
       if (!isCardShown) {

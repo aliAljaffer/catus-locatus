@@ -2,9 +2,11 @@ import { useState } from "react";
 import { TPet } from "../pets/Pet";
 import { Marker, useMapEvents } from "react-leaflet";
 import { useQuery } from "@tanstack/react-query";
+import { icon } from "leaflet";
 type MarkerPainterProps = {
   handleMapClick: (p: TPet) => void;
 };
+
 export default function MarkerPainter({ handleMapClick }: MarkerPainterProps) {
   const [inViewPets, setInViewPets] = useState<TPet[]>([]);
 
@@ -38,8 +40,14 @@ export default function MarkerPainter({ handleMapClick }: MarkerPainterProps) {
   return (
     <>
       {inViewPets.map((pet) => {
+        const markerIcon = icon({
+          iconUrl: `/${pet.petType}.png`,
+          iconSize: [40, 40],
+          iconAnchor: [0, 15],
+        });
         return (
           <Marker
+            icon={markerIcon}
             key={pet.caseId}
             position={[pet.position.latitude, pet.position.longitude]}
             title={pet.name}

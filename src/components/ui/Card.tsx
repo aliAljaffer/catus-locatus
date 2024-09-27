@@ -54,9 +54,9 @@ export default function Card() {
     );
   if (!selectedPetId) return null;
   if (!petData) return null;
-  const pet: TPet | undefined = petData
-    ?.filter((pet: TPet) => pet.caseId === selectedPetId)
-    ?.at(0);
+  const pet: TPet | undefined = petData?.find(
+    (pet: TPet) => pet.caseId === selectedPetId,
+  );
   if (!pet)
     return (
       <div
@@ -95,6 +95,7 @@ export default function Card() {
         <ReportDialog
           petReported={pet}
           classNameProp="absolute bottom-5 right-3 z-[99] animate-in"
+          buttonLabel={`make Report: ${isLost ? `"I found ${pet.name}` : `"${pet.name} is mine`}!"`}
         />
       )}
       <Button
