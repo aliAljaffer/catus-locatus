@@ -63,4 +63,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  input,
+  select {
+    font-size: 16px !important; /* Prevent zoom on mobile */
+  }
 }
