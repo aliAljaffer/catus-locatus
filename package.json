@@ -24,6 +24,7 @@
     "@tanstack/react-query-devtools": "^5.58.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cross-spawn": "^7.0.6",
     "framer-motion": "^11.6.0",
     "json-server": "^1.0.0-beta.3",
     "leaflet": "^1.9.4",
