@@ -33,8 +33,8 @@ export function formatDate(date: Date | string): string {
 
 export function obfuscate(str: string): string {
   const halfLen = Math.ceil(str.length / 2);
-  const obfuscated = str.slice(0, halfLen) + c("*", halfLen);
-  return obfuscated;
+  const obfuscated = str.slice(0, halfLen);
+  return obfuscated + c("*", halfLen);
 }
 
 export function c(char: string, num: number): string {
