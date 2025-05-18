@@ -24,7 +24,7 @@ import { Spinner } from "@radix-ui/themes";
 import { useState } from "react";
 import { Button } from "./button";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { formatDate, obfuscate } from "@/utils/helpers";
+import { formatDate } from "@/utils/helpers";
 import ReportDialog from "../pets/ReportDialog";
 
 export default function Card() {
@@ -173,7 +173,8 @@ export default function Card() {
         <Feature
           Icon={<CalendarIcon />}
           featureName="Contact"
-          content={obfuscate(contact)}
+          // content={obfuscate(contact)}
+          content={contact}
         />
       </div>
     </div>
