@@ -1,4 +1,4 @@
-import { TPet } from "../pets/Pet";
+import { TPet } from "@/components/pets/Pet";
 import {
   ArrowUpIcon,
   CubeIcon,
@@ -11,7 +11,7 @@ import {
   Pencil2Icon,
   CalendarIcon,
 } from "@radix-ui/react-icons";
-import Feature from "../pets/Feature";
+import Feature from "@/components/pets/Feature";
 import {
   useChangeSelected,
   useIsCardShown,
@@ -24,8 +24,8 @@ import { Spinner } from "@radix-ui/themes";
 import { useState } from "react";
 import { Button } from "./button";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { formatDate, obfuscate } from "@/utils/helpers";
-import ReportDialog from "../pets/ReportDialog";
+import { formatDate } from "@/utils/helpers";
+import ReportDialog from "@/components/pets/ReportDialog";
 
 export default function Card() {
   const showMiniCard = useIsCardShown();
@@ -173,7 +173,8 @@ export default function Card() {
         <Feature
           Icon={<CalendarIcon />}
           featureName="Contact"
-          content={obfuscate(contact)}
+          // content={obfuscate(contact)}
+          content={contact}
         />
       </div>
     </div>
